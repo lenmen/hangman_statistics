@@ -1,5 +1,5 @@
-statisticsApp.controller("statisticsCtrl", ["statistics", "$scope",
-    function(statistics, $scope) {
+statisticsApp.controller("statisticsCtrl", ["statistics", "$scope", "gamesStatus", "webSocketConnector",
+    function(statistics, $scope, gamesStatus, webSocketConnector) {
         $scope.tab = 0;
         $scope.counts = 0;
         $scope.currentPage = 1;
@@ -26,6 +26,7 @@ statisticsApp.controller("statisticsCtrl", ["statistics", "$scope",
         }
 
         $scope.setStatistics = function () {
+            var status = gamesStatus.getStatus();
             var list = statistics.getAll();
 
             list.success(function(data) {
@@ -41,7 +42,9 @@ statisticsApp.controller("statisticsCtrl", ["statistics", "$scope",
         }
 
         $scope.isOrder = function(order) {
-            console.log(order === $scope.order);
             return ('-' + order === $scope.order);
         }
+
+        // Socket listener
+        gamesStatus.getStatus();
     }]);

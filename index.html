@@ -4,12 +4,6 @@
     <meta charset="UTF-8">
     <title>Game statistics</title>
 
-    <!-- Angular -->
-    <script src="assets/angular.js/build/angular.min.js"></script>
-    <script src="assets/angular.js/build/angular-resource.min.js"></script>
-    <script src="assets/angular.js/build/angular-route.min.js"></script>
-    <script src="assets/angular.js/build/angular-cookies.min.js"></script>
-
     <!-- Bootstrap -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/css/bootstrap-theme.min.css" rel="stylesheet">
@@ -17,10 +11,22 @@
     <!-- Stylesheets -->
     <link href="assets/css/style.css" rel="stylesheet" />
 
+    <!-- Angular -->
+    <script src="assets/angular.js/build/angular.min.js"></script>
+    <script src="assets/angular.js/build/angular-resource.min.js"></script>
+    <script src="assets/angular.js/build/angular-route.min.js"></script>
+    <script src="assets/angular.js/build/angular-cookies.min.js"></script>
+
+    <!-- WebSocket -->
+    <script src="assets/js/gos_web_socket_client.js"></script>
+    <script src="assets/js/autobahn.min.js"></script>
+
     <!-- Other scripts -->
     <script src="assets/node_modules/angular-utils-pagination/dirPagination.js"></script>
     <script src="app/app.js"></script>
+    <script src="services/webSocket.js"></script>
     <script src="factories/statistics.js"></script>
+    <script src="services/gameStatus.js"></script>
     <script src="controller/statisticsCtrl.js"></script>
 </head>
 <body>
