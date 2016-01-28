@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="statisticsApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Game statistics</title>
+
+    <!-- Angular -->
+    <script src="assets/angular.js/build/angular.min.js"></script>
+    <script src="assets/angular.js/build/angular-resource.min.js"></script>
+    <script src="assets/angular.js/build/angular-route.min.js"></script>
+    <script src="assets/angular.js/build/angular-cookies.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/bootstrap-theme.min.css" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link href="assets/css/style.css" rel="stylesheet" />
+
+    <!-- Other scripts -->
+    <script src="assets/node_modules/angular-utils-pagination/dirPagination.js"></script>
+    <script src="app/app.js"></script>
+    <script src="factories/statistics.js"></script>
+    <script src="controller/statisticsCtrl.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <header>
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="assets/images/logo.png" />
+                </div>
+                <div class="col-md-8">
+                    <h1>Game Statistics</h1>
+                </div>
+            </div>
+        </header>
+        <div class="container">
+            <div id="content" ng-controller="statisticsCtrl as gameStatistics" ng-init="setStatistics()">
+                <div detail></div>
+                <div id="overview" class="row">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th><span class="glyphicon glyphicon-chevron-down selectable" aria-hidden="true" ng-click="setOrder('uuid')" ng-class="{selected: isOrder('uuid')}"></span>Uuid</th>
+                                <th><span class="glyphicon glyphicon-chevron-down selectable" aria-hidden="true" ng-click="setOrder('word')" ng-class="{selected: isOrder('word')}"></span>Word</th>
+                                <th><span class="glyphicon glyphicon-chevron-down selectable" aria-hidden="true" ng-click="setOrder('status')" ng-class="{selected: isOrder('status')}"></span>Status</th>
+                                <th>Action(s)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <form name="searchForm">
+                                    <td colspan="4">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="Find some games!?" ng-model="findUuid" />
+                                        </div>
+                                    </td>
+                                </form>
+                            </tr>
+                            <tr dir-paginate="gameoverview in statisticsOfGameSecond | filter:findUuid | orderBy: order | itemsPerPage: pageSize" current-page="currentPage">
+                                <td>{{ gameoverview.uuid }}</td>
+                                <td>{{ gameoverview.word }}</td>
+                                <td>{{ gameoverview.status }}</td>
+                                <td><button ng-click="openTab(gameoverview.id)">Info</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="pagination" class="row">
+                    <div class="col-x-12">
+                        <dir-pagination-controls></dir-pagination-controls>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
