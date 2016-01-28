@@ -1,0 +1,70 @@
+<div id="detailBox" ng-show="showDetail()">
+    <div ng-show="issetTab(game.id)" ng-repeat="game in statisticsOfGame">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2 class="text-center"><small>Detail</small></h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 div-bordered-right">
+                <table class="table table-hover">
+                    <tr>
+                        <td><b>Uuid</b></td>
+                        <td>{{ game.uuid }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Time started</b></td>
+                        <td>{{ game.gameStartedAt|date:'yyyy-mm-dd HH:mm' }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Word</b></td>
+                        <td>{{ game.word }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Amount correct letters guessed</b></td>
+                        <td>{{ game.correctLettersGuessed.length }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Amount wrong letters guessed</b></td>
+                        <td>{{ game.wrongLettersGuessed.length }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Status</b></td>
+                        <td>{{ game.status }}</td>
+                    </tr>
+                    <tr ng-if="game.gameEnd">
+                        <td><b>Game completed at</b></td>
+                        <td>{{ game.gameEndedDate|date:'yyyy-mm-dd HH:mm' }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <div class="row textbox-field">
+                    <div class="col-xs-12">
+                        <h4 class="text-center"><small>Good letters guessed</small></h4>
+                        <div class="row">
+                            <div class="col-xs-1" ng-repeat="letterCorrect in game.correctLettersGuessed track by $index">
+                                <u class="text-center">{{ letterCorrect }}</u>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row textbox-field">
+                    <div class="col-xs-12">
+                        <h4 class="text-center"><small>Wrong letters guessed</small></h4>
+                        <div class="row">
+                            <div class="col-xs-1" ng-repeat="letterWrong in game.wrongLettersGuessed track by $index">
+                                <u class="text-center">{{ letterWrong }}</u>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <button class="btn btn-warning" ng-click="resetTab()">Close Detail</button>
+            </div>
+        </div>
+    </div>
+</div>
