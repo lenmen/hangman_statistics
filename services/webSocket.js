@@ -2,13 +2,30 @@ statisticsApp.service("webSocketConnector", function() {
     var webSocket = {
         socket: null,
         subscribes: null,
-        messages: [],
-        publish: null
+        message: null,
+        publish: null,
+        callbacks: []
     };
 
     webSocket.init = function (protocol, ip, port) {
-        this.socket = WS.connect(protocol + "://" + ip + ':' + port);
+        this.socket = new WebSocket(protocol + "://" + ip + ':' + port);
+
+        // Create the connection
+        this.socket.onopen = function (e) {
+            console.log("Connection established!");
+        }
+
         return this;
+    };
+
+    webSocket.registerObserverCallback = function (callback) {
+        this.callbacks.push(callback);
+    };
+
+    webSocket.notifyObservers = function () {
+        angular.forEach(this.callbacks, function (callback) {
+            callback();
+        });
     };
 
     webSocket.checkIfSocketIsSet = function () {
@@ -20,51 +37,23 @@ statisticsApp.service("webSocketConnector", function() {
         return 0;
     };
 
-    webSocket.addSubscribeEvent = function (channel) {
-        // add the channel to the array
-        this.subscribes = channel;
-        return this;
-    };
-
-    webSocket.addPublishEvent = function (channel, message) {
-        var tmp = [];
-        tmp["channel"] = channel;
-        tmp["message"] = message;
-
-        this.publish = tmp;
-        return this;
-    };
-
-    /**
-     * AddSubscribeEvents and addPublishEvents needs to be executed first will it be loaded in the connect function
-     * @returns {webSocket}
-     */
-    webSocket.connect = function() {
-        this.socket.on("socket/connect", function(session) {
-            console.log("successfully connected!");
-            if (webSocket.subscribes) {
-                session.subscribe(webSocket.subscribes, function(uri, payload) {
-                    console.log("received message", payload.msg);
-                });
+    webSocket.getMessages = function () {
+        if (this.checkIfSocketIsSet() === 0) {
+            this.socket.onmessage = function(e) {
+                console.log("retrieved message");
+                webSocket.message = JSON.parse(e.data);
+                webSocket.notifyObservers();
             }
-
-            if(webSocket.publish) {
-                session.publish(webSocket.publish["channel"], webSocket.publish["message"]);
-            }
-        });
-    };
-
-    webSocket.disconnect = function () {
-        if (this.checkIfSocketIsset() === 1) {
-            return this;
+        } else {
+            console.log("no connection set");
         }
-
-        this.socket.on("socket/disconnect", function(error) {
-            console.log("Disconnected for " + error.reason + " with code " + error.code);
-        });
-
-        return this;
     };
+
+    webSocket.send = function (msg) {
+        if (this.checkIfSocketIsSet() === 0) {
+            this.socket.send(msg);
+        }
+    }
 
     return webSocket;
 });

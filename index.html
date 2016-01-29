@@ -26,7 +26,6 @@
     <script src="app/app.js"></script>
     <script src="services/webSocket.js"></script>
     <script src="factories/statistics.js"></script>
-    <script src="services/gameStatus.js"></script>
     <script src="controller/statisticsCtrl.js"></script>
 </head>
 <body>
@@ -64,7 +63,7 @@
                                     </td>
                                 </form>
                             </tr>
-                            <tr dir-paginate="gameoverview in statisticsOfGameSecond | filter:findUuid | orderBy: order | itemsPerPage: pageSize" current-page="currentPage">
+                            <tr dir-paginate="gameoverview in statisticsOfGame | filter:findUuid | orderBy: order | itemsPerPage: pageSize" current-page="currentPage">
                                 <td>{{ gameoverview.uuid }}</td>
                                 <td>{{ gameoverview.word }}</td>
                                 <td>{{ gameoverview.status }}</td>
